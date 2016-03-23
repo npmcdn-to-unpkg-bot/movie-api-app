@@ -8,6 +8,8 @@ $(document).ready(function(){
 	var apiKey = '?api_key=5e2170b9fb801a61d6d784870c4c2eb1';
 	//The configURL so that we can get basic config data
 	var configURL = baseURL + 'configuration' + apiKey;
+	var titleArray = [];
+	var matches = [];
 
 
 	
@@ -35,11 +37,13 @@ $(document).ready(function(){
 			// console.log(currentPoster);	
 		}
 
-		for(i=0; i<movieData.results.length; i++){
-			var titleArray = [];
-			titleArray.push(movieData.results[i].title);
+			var titleArray = movieData.results;
+			
+			$(movieData.results).each(function(){
+				titleArray.push(this.original_title);
+			});
+				
 			console.log(titleArray);
-		}
 		
 		var substringMatcher = function(strs) {
 		  return function findMatches(q, cb) {
@@ -62,7 +66,7 @@ $(document).ready(function(){
 		  minLength: 1
 		},
 		{
-		  name: 'states',
+		  name: 'titleArray',
 		  source: substringMatcher(titleArray)
 		});
 
@@ -73,7 +77,7 @@ $(document).ready(function(){
 	$("#movie-search-form").submit(function() {
 	 	event.preventDefault();
 	 	var input = $("#movie-input").val();
-	 	var searchURL = baseURL + "search/multi" + apiKey + "&query=" + encodeURI(input);
+	 	var searchURL = baseURL + "search/multi" + apiKey + "&query=" + encodeURI(input)+ "&page 1";
 	 	// console.log(searchURL);
 		 $.getJSON(searchURL, function(searchResult){
 		 	var newHTML = '';
@@ -83,7 +87,8 @@ $(document).ready(function(){
 					newHTML += "<img src='" + poster + "'>";
 					newHTML += "</div>";
 				}
-				$("#poster-grid").html(newHTML);
+				
+			$("#poster-grid").html(newHTML);
 			});
 	 	});
 });
