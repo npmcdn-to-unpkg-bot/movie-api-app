@@ -56,30 +56,35 @@ $(document).ready(function(){
 		  };
 		};
 
-		// $('#the-basics .typeahead').typeahead({
-		//   hint: true,
-		//   highlight: true,
-		//   minLength: 1
-		// },
-		// {
-		//   name: 'states',
-		//   source: substringMatcher(titleArray)
-		// });
+		$('#the-basics .typeahead').typeahead({
+		  hint: true,
+		  highlight: true,
+		  minLength: 1
+		},
+		{
+		  name: 'states',
+		  source: substringMatcher(titleArray)
+		});
 
 
 		$('#poster-grid').html(newHTML);
 	});
 
-
-	$('#search').submit(function(){
-		var movieSearchTerm = $('#movie-input').val();
-		console.log(movieSearchTerm);
-		$.getJSON(searchURL, function(movieData){
-			var searchURL = baseURL + '/search/movie'+ apiKey + '?' + movieSearchTerm;
-			console.log(movieData.results[0]);
-		});
-	$('#poster-grid').html(newHTML);
-	});
-
+	$("#movie-search-form").submit(function() {
+	 	event.preventDefault();
+	 	var input = $("#movie-input").val();
+	 	var searchURL = baseURL + "search/multi" + apiKey + "&query=" + encodeURI(input);
+	 	// console.log(searchURL);
+		 $.getJSON(searchURL, function(searchResult){
+		 	var newHTML = '';
+		 	 	for(var i= 0; i < searchResult.results.length; i++){
+				var poster = imagePath + "w300" + searchResult.results[i].poster_path;
+					newHTML += "<div class='col-sm-3'>";
+					newHTML += "<img src='" + poster + "'>";
+					newHTML += "</div>";
+				}
+				$("#poster-grid").html(newHTML);
+			});
+	 	});
 });
 
