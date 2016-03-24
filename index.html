@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MovieDatabase API APP!</title>
+	<title>An awesome movie app!</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
@@ -10,21 +10,20 @@
 
 	<div class="container">
 
-
 		<div class="row">
-			<div id="the-basics" class="col-sm-12 text-center">
+			<div class="col-sm-12 text-center">
 				<form id="movie-form">
-					<input id="search-text" class="typeahead" type="text"  placeholder="Search for...">
-					<input id="search" type="submit" class="btn btn-primary" value="search">
-					<select>
-						<option value="">Here is an option</option>
-						<option value="">Here is an option</option>
+					<input type="text" id="searchText" class="typeahead" placeholder="Search for...">
+					<input type="submit" class="btn btn-primary" value="search">
+					<select id="searchFilter">
+						<option value="movie">Movie</option>
+						<option value="person">Actor</option>
+						<option value="tv">TV</option>
+						<option value="multi">All</option>
 					</select>
 				</form>
 			</div>
 		</div>
-
-
 
 		<div class="row">
 			<div id="page-heading" class="col-sm-12">
@@ -41,7 +40,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.min.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/scripts.js"></script>
 
 </body>
