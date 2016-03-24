@@ -75,9 +75,23 @@ $(document).ready(function(){
 	});
 
 	$("#movie-search-form").submit(function() {
-	 	event.preventDefault();
+	 	var searchValue = $("select").val();
+		console.log(searchValue);
+		if (searchValue == "Movie"){
+		 	searchTerm = "search/movie";
+		}else if (searchValue == "TV"){
+		 	searchTerm = "search/tv";
+		 }else if (searchValue == "Person"){
+		 	searchTerm = "search/person";
+		}
+			event.preventDefault();
+
 	 	var input = $("#movie-input").val();
-	 	var searchURL = baseURL + "search/multi" + apiKey + "&query=" + encodeURI(input)+ "&page 1";
+	 	var searchURL;
+
+	 	var searchURL = baseURL + searchTerm + apiKey + "&query=" + encodeURI(input)+ "&page 1";
+	 	
+
 	 	// console.log(searchURL);
 		 $.getJSON(searchURL, function(searchResult){
 		 	var newHTML = '';
@@ -87,6 +101,7 @@ $(document).ready(function(){
 					newHTML += "<img src='" + poster + "'>";
 					newHTML += "</div>";
 				}
+
 				
 			$("#poster-grid").html(newHTML);
 			});
