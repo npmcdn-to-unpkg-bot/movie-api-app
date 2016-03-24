@@ -1,6 +1,4 @@
-
 $(document).ready(function(){
-	
 	var imagePath;
 	//The URL of all our API calls
 	var baseURL = 'https://api.themoviedb.org/3/';
@@ -8,9 +6,6 @@ $(document).ready(function(){
 	var apiKey = '?api_key=5e2170b9fb801a61d6d784870c4c2eb1';
 	//The configURL so that we can get basic config data
 	var configURL = baseURL + 'configuration' + apiKey;
-
-
-	
 
 	//Make an AJAX call to the config URL.
 	$.getJSON(configURL, function(configData){
@@ -20,10 +15,7 @@ $(document).ready(function(){
 
 	//Now Playing is default on page load. Set up the URL
 	var nowPlaying = baseURL + 'movie/now_playing' + apiKey;
-	console.log(nowPlaying);
-
 	//Make an AJAX call to the now playing URL.
-
 	$.getJSON(nowPlaying, function(movieData){
 		var newHTML = '';
 		//Loop through all the results and set up an image url.
@@ -32,43 +24,62 @@ $(document).ready(function(){
 			newHTML += '<div class="col-sm-3">';
 			newHTML += '<img src="' + currentPoster + '">';
 			newHTML += '</div>';
-			// console.log(currentPoster);	
+			// console.log(currentPoster);
 		}
-
-		for(i=0; i<movieData.results.length; i++){
-			var titleArray = [];
-			titleArray.push(movieData.results[i].title);
-			console.log(titleArray);
-		}
-		
-		var substringMatcher = function(strs) {
-		  return function findMatches(q, cb) {
-		    var matches, substringRegex;
-		    matches = [];
-		    substrRegex = new RegExp(q, 'i');
-
-		    $.each(strs, function(i, str) {
-		      if (substrRegex.test(str)) {
-		       		matches.push(str);
-		     	}
-		    });
-		    cb(matches);
-		  };
-		};
-
-		// $('#the-basics .typeahead').typeahead({
-		//   hint: true,
-		//   highlight: true,
-		//   minLength: 1
-		// },
-		// {
-		//   name: 'states',
-		//   source: substringMatcher(titleArray)
-		// });
-
-
 		$('#poster-grid').html(newHTML);
 	});
+
+	$('#movie-form').submit(function(event){
+		var userSearch = $('.typeahead').val();
+		console.log(userSearch);
+		userSearch = $('#searchText').val();
+		console.log(userSearch);
+		// var typeSearch = ($('#movie-form .typeahead').typeahead('val'));
+		// console.log($('#movie-form .typeahead').typeahead('val'));
+		// console.log (typeSearch);
+		event.preventDefault();
+	});
+
+});
+
+
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
+
+    // an array that will be populated with substring matches
+    matches = [];
+
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        matches.push(str);
+      }
+    });
+
+    cb(matches);
+  };
+};
+
+var actors = [
+	'Brad Pitt',
+	'Michael Douglas',
+	'Al Pacino'
+];
+
+$('#movie-form .typeahead').typeahead({
+  hint: true,
+  highlight: true,
+  minLength: 1
+},
+{
+  name: 'actors',
+  source: substringMatcher(actors)
+});
 
 
 	$('#search').submit(function(){
