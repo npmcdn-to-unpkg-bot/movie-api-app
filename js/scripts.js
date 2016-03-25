@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+	var genreArray = [];
+
 	$('#searchFilter').change(function(){
 		console.log($(this).val());
 	})
@@ -8,10 +10,9 @@ $(document).ready(function(){
 	//The URL of all our API calls
 	var baseURL = 'https://api.themoviedb.org/3/';
 	//The query string including apiKey anytime they ask for it
-	var apiKey = '?api_key=5e2170b9fb801a61d6d784870c4c2eb1';
+	var apiKey = '?api_key=	5e2170b9fb801a61d6d784870c4c2eb1';
 	//The configURL so that we can get basic config data
 	var configURL = baseURL + 'configuration' + apiKey;
-	genreArray = [];
 
 	//Make an AJAX call to the config URL.
 	$.getJSON(configURL, function(configData){
@@ -21,19 +22,26 @@ $(document).ready(function(){
 
 
 	var genreURL = baseURL + 'genre/movie/list' + apiKey;
-	//Make an AJAX call to the config URL.
-	$.getJSON(genreURL, function(movieGenre){
-		//Set our global var imagePath to the result of our AJAX call
-			console.log(movieGenre);
-		for(i=0; i<movieGenre.genres.length; i++){
-			var genreName = movieGenre.genres[i].name;
-			var genreId = movieGenre.genres[i].id;
-			console.log(genreName);
-			console.log(genreId);
-			// genreArray.push(genreId);
-			genreArray[genreId] = movieGenre.genres[i].name;
-			console.log(genreArray);
+	//Make an AJAX call to the genre URL.
+	$.getJSON(genreURL, function(genreData){
+		// console.log(genreData);
+		for(i=0; i<genreData.genres.length; i++){
+			var genreID = genreData.genres[i].id;
+			var genreName = genreData.genres[i].name;
+			genreArray[genreID]= genreName;
 		}
+
+		var genreHTML = '';
+		for(i=0; i<genreArray.length; i++){
+			if(genreArray[i] != undefined){
+				genreHTML += '<input type="button" id="'+genreArray[i]+'" class="btn btn-success genre-button" value="'+genreArray[i]+'">'
+			}
+		}
+
+		$('#genre-buttons').html(genreHTML);
+		addGenreClicks();
+
+		console.dir(genreArray);
 	});
 
 
@@ -41,27 +49,39 @@ $(document).ready(function(){
 	var nowPlaying = baseURL + 'movie/now_playing' + apiKey;
 	//Make an AJAX call to the now playing URL.
 	$.getJSON(nowPlaying, function(movieData){
-		console.log(movieData);
+		// console.log(movieData);
 		var newHTML = '';
 		//Loop through all the results and set up an image url.
-
-
 		for(i=0; i<movieData.results.length; i++){
+			// console.log(movieData.results[i]);
 			var currentPoster = imagePath + 'w300' + movieData.results[i].poster_path;
+			var firstGenreID = movieData.results[i].genre_ids[0];
+			var genreName = genreArray[firstGenreID];
 			
+			
+
 			for(j=0; j<movieData.results.length; j++){
-				var genreNum = movieData.results[j].genre_ids;
-				console.log(genreNum);
+				if (genreArray[j] != undefined){
+					var genreIdTotal = movieData.results[i].genre_ids[j];
+					var genreNameTotal = genreArray[genreIdTotal];
+					console.log(movieData.results[i].genre_ids);
+					console.log(genreNameTotal);
+				}
+			}
+
+
 			
-		
-			newHTML += '<div class="col-sm-3 now-playing ' + genreNum + '">';
+
+
+
+
+
+
+			newHTML += '<div class="col-sm-3 now-playing ' + encodeURI(genreName) + genreNameTotal +'">';
 			newHTML += '<img src="' + currentPoster + '">';
 			newHTML += '</div>';
 			// console.log(currentPoster);
 		}
-		}
-
-
 		$('#poster-grid').html(newHTML);
 
 		getIsotope();
@@ -104,18 +124,10 @@ $(document).ready(function(){
 				// console.log(currentPoster);
 			}
 			$('#poster-grid').html(newHTML);
+			getIsotope();
 		});		
 		event.preventDefault();
 	});
-
-	//isotope listener
-	$('#comedy-filter').click(function(){
-		$('#poster-grid').isotope({ filter: '.comedy' })
-
-
-
-	});
-
 });
 
 // $('#searchText').keyup(function(){
@@ -148,7 +160,7 @@ var substringMatcher = function(strs) {
 var arrayToSearch = [];
 for (i=1; i <= 6; i++) {
 	var popularMovies = 'https://api.themoviedb.org/3/movie/popular?api_key=fec8b5ab27b292a68294261bb21b04a5&page=' + i;
-	// console.log(popularMovies);
+	console.log(popularMovies);
 	$.getJSON(popularMovies, function(popularM){
 		for(j=0; j<popularM.results.length; j++){
 			arrayToSearch.push(popularM.results[j].original_title);
@@ -175,21 +187,26 @@ $('#movie-form .typeahead').typeahead(
 	},
 	{
   		name: 'actors',
-  		source: substringMatcher(arrayToSearch)
+  		source: substringMatcher(actors)
 	}
 );
 
 function getIsotope(){
-	$('#poster-grid').isotope(
+	var theGrid = $('#poster-grid').isotope(
 		{
 	  		// options
-	  		itemSelector: '.now-playing',
-	  		layoutMode: 'fitRows'
-	  	}
-	);			
+	  		itemSelector: '.now-playing'
+		});	
+
+	// layout Isotope after each image loads
+	theGrid.imagesLoaded().progress(function() {
+  		theGrid.isotope('layout');
+	});
+
 }
 
-
-
-
-
+function addGenreClicks(){
+	$('.genre-button').click(function(){
+		$('#poster-grid').isotope({ filter: '.'+ $(this).attr('id') });
+	});
+}
