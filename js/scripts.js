@@ -34,7 +34,7 @@ $(document).ready(function(){
 		var genreHTML = '';
 		for(i=0; i<genreArray.length; i++){
 			if(genreArray[i] != undefined){
-				genreHTML += '<input type="button" id="'+genreArray[i].replace(/ /g, "")+'" class="btn btn-default genre-button" value="'+genreArray[i]+'">'
+				genreHTML += '<input type="button" id="'+genreArray[i].replace(/ /g, "")+'" class="btn btn-success genre-button" value="'+genreArray[i]+'">'
 			}
 		}
 
