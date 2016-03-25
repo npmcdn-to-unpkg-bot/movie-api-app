@@ -34,14 +34,13 @@ $(document).ready(function(){
 		var genreHTML = '';
 		for(i=0; i<genreArray.length; i++){
 			if(genreArray[i] != undefined){
-				genreHTML += '<input type="button" id="'+genreArray[i]+'" class="btn btn-success genre-button" value="'+genreArray[i]+'">'
+				genreHTML += '<input type="button" id="'+genreArray[i].replace(/ /g, "")+'" class="btn btn-default genre-button" value="'+genreArray[i]+'">'
 			}
 		}
 
 		$('#genre-buttons').html(genreHTML);
 		addGenreClicks();
 
-		console.dir(genreArray);
 	});
 
 
@@ -53,31 +52,15 @@ $(document).ready(function(){
 		var newHTML = '';
 		//Loop through all the results and set up an image url.
 		for(i=0; i<movieData.results.length; i++){
-			// console.log(movieData.results[i]);
 			var currentPoster = imagePath + 'w300' + movieData.results[i].poster_path;
-			var firstGenreID = movieData.results[i].genre_ids[0];
-			var genreName = genreArray[firstGenreID];
-			
-			
-
-			for(j=0; j<movieData.results.length; j++){
-				if (genreArray[j] != undefined){
-					var genreIdTotal = movieData.results[i].genre_ids[j];
-					var genreNameTotal = genreArray[genreIdTotal];
-					console.log(movieData.results[i].genre_ids);
-					console.log(genreNameTotal);
-				}
+			var genreName = ''; 
+			// genreArray[firstGenreID];
+			for(j=0; j<movieData.results[i].genre_ids.length; j++){
+				var safeGenreName = genreArray[movieData.results[i].genre_ids[j]].replace(/ /g, "");
+				// console.log(safeGenreName);
+				genreName += safeGenreName + ' ';
 			}
-
-
-			
-
-
-
-
-
-
-			newHTML += '<div class="col-sm-3 now-playing ' + encodeURI(genreName) + genreNameTotal +'">';
+			newHTML += '<div class="col-sm-3 now-playing ' + genreName + '">';
 			newHTML += '<img src="' + currentPoster + '">';
 			newHTML += '</div>';
 			// console.log(currentPoster);
@@ -86,7 +69,6 @@ $(document).ready(function(){
 
 		getIsotope();
 	});
-
 
 	$('#movie-form').submit(function(event){
 		// var userSearch = $('.typeahead').typeahead('val');
