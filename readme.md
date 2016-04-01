@@ -4,4 +4,4 @@
 
 ###Add on: Used Typeahead jQuery plugin, select dropdown options (actor, movie, etc.), modal with summary info. 
 
-###See http://docs.themoviedb.apiary.io/ for api information.
+###See http://docs.themoviedb.apiary.io/ for api information, or call Michael Bay for additional upcoming movie information.
