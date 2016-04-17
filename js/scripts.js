@@ -16,6 +16,7 @@ $(document).ready(function(){
 
 	//Make an AJAX call to the config URL.
 	$.getJSON(configURL, function(configData){
+		console.log(configData);
 		//Set our global var imagePath to the result of our AJAX call
 		imagePath = configData.images.base_url;
 	});
