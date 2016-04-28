@@ -22,8 +22,8 @@ jQuery will make GET request here on load
 		//Set our global var imagePath to the result of our AJAX call
 		imagePath = configData.images.base_url;
 	});
-	```
-	####Ran AJAX call for "now_playing" results, looped through the data, and injected Data as new HTML
+```
+####Ran AJAX call for "now_playing" results, looped through the data, and injected Data as new HTML
 	```js
 		//Now Playing is default on page load. Set up the URL
 	var nowPlaying = baseURL + 'movie/now_playing' + apiKey;
