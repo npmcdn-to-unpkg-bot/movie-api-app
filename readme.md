@@ -24,7 +24,7 @@ jQuery will make GET request here on load
 	});
 ```
 ####Ran AJAX call for "now_playing" results, looped through the data, and injected Data as new HTML
-	```js
+```js
 		//Now Playing is default on page load. Set up the URL
 	var nowPlaying = baseURL + 'movie/now_playing' + apiKey;
 	//Make an AJAX call to the now playing URL.
@@ -49,8 +49,8 @@ jQuery will make GET request here on load
 		$('#poster-grid').html(newHTML);
 
 		getIsotope();
-	});
-	```
+	});	
+```
 	
 
 
