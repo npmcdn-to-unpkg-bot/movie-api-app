@@ -13,9 +13,9 @@ jQuery will make GET request here on load
 	var apiKey = '?api_key=	5e2170b9fb801a61d6d784870c4c2eb1';
 	//The configURL so that we can get basic config data
 	var configURL = baseURL + 'configuration' + apiKey;
-	```
-	#### Ran AJAX .getJSON method to receive "configData" from API
-	```js
+```
+#### Ran AJAX .getJSON method to receive "configData" from API
+```js
 		//Make an AJAX call to the config URL.
 	$.getJSON(configURL, function(configData){
 		console.log(configData);
