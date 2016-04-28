@@ -1,8 +1,8 @@
-#MovieDatabase App that connects to Open Movie DB API with jQuery .getJSON method - AJAX!!
-###Using AJAX (jQuery's $.getJSON method see the line literally above me) this app pulls from an endpoint provided by themoviedb.org and serves up now playing movies on load. Gives the user the option of searching for a movie and will change the HTML to reflect the new posters.
-###Add on: Used Typeahead jQuery plugin, select dropdown options (actor, movie, etc.), modal with summary info. 
-###See http://docs.themoviedb.apiary.io/ for api information
-###Call Michael Bay for upcoming movie information.
+#MovieDatabase App that connects to Open Movie DB API
+####Using AJAX (jQuery's $.getJSON method see the line literally above me) this app pulls from an endpoint provided by themoviedb.org and serves up now playing movies on load. Gives the user the option of searching for a movie and will change the HTML to reflect the new posters.
+####Add on: Used Typeahead jQuery plugin, select dropdown options (actor, movie, etc.), modal with summary info. 
+####See http://docs.themoviedb.apiary.io/ for api information
+####Call Michael Bay for upcoming movie information.
 ####Configured URL  with API Key and set to variables 
 jQuery will make GET request here on load
 ```js
